@@ -8,6 +8,7 @@ Automatic Speech Recognition Models</h1>
 [[Paper]](https://arxiv.org/pdf/2501.14350)
 [[Model]](https://huggingface.co/fireredteam)
 [[Blog]](https://fireredteam.github.io/demos/firered_asr/)
+[[Demo]](https://huggingface.co/spaces/FireRedTeam/FireRedASR)
 
 FireRedASR is a family of open-source industrial-grade automatic speech recognition (ASR) models supporting Mandarin, Chinese dialects and English, achieving a new state-of-the-art (SOTA) on public Mandarin ASR benchmarks, while also offering outstanding singing lyrics recognition capability.
 
