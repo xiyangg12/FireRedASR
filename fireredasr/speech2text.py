@@ -4,7 +4,7 @@ import argparse
 import glob
 import os
 import sys
-
+import re
 from fireredasr.models.fireredasr import FireRedAsr
 
 
@@ -37,11 +37,21 @@ parser.add_argument("--temperature", type=float, default=1.0)
 
 
 def main(args):
-    wavs = get_wav_info(args)
-    fout = open(args.output, "w") if args.output else None
-
     model = FireRedAsr.from_pretrained(args.asr_type, args.model_dir)
+    if args.wav_dir is None:
+        wavs = get_wav_info(args)
+        fout = open(args.output, "w") if args.output else None
+        transcribe(wavs, fout)
+    else:
+        wav_dir = args.wav_dir
+        for dir in os.listdir(wav_dir):
+            args.wav_dir = os.path.join(wav_dir, dir)
+            wavs = get_wav_info(args)
+            fout = open(os.path.join("/data/xiyali/FireRedASR/output", f"{dir}.txt"), "w") if args.output else None
+            transcribe(model, args, wavs, fout)
 
+
+def transcribe(model, args, wavs, fout):
     batch_uttid = []
     batch_wav_path = []
     for i, wav in enumerate(wavs):
@@ -96,6 +106,10 @@ def get_wav_info(args):
     else:
         raise ValueError("Please provide valid wav info")
     print(f"#wavs={len(wavs)}")
+    def extract_num(f):
+        return int(re.search(r'seg\d+', f[1]).group()[3:])
+
+    wavs = sorted(wavs, key=extract_num)
     return wavs
 
 

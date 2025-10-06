@@ -1,16 +1,25 @@
 #!/bin/bash
+#SBATCH --job-name=fireredasr_test        # Name shown in queue
+#SBATCH --gpus=1                       # Request 1 GPU
+#SBATCH --mem=32G                      # System memory (RAM)
+#SBATCH --time=02:00:00                # Max runtime (2 hours)
+#SBATCH --output=fireredasr_%j.out   # standard output (%j = job id)
+
+source ~/miniconda3/bin/activate fireredasr
+
+nvidia-smi
 
 export PATH=$PWD/fireredasr/:$PWD/fireredasr/utils/:$PATH
 export PYTHONPATH=$PWD/:$PYTHONPATH
 
 # model_dir includes model.pth.tar, cmvn.ark, dict.txt
-model_dir=$PWD/pretrained_models/FireRedASR-AED-L
+model_dir=/home/xiyali/data/FireRedASR/models/FireRedASR-AED-L
 
 # Support several input format
-wavs="--wav_path wav/BAC009S0764W0121.wav"
-wavs="--wav_paths wav/BAC009S0764W0121.wav wav/IT0011W0001.wav wav/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00000.wav wav/TEST_MEETING_T0000000001_S00000.wav"
-wavs="--wav_dir wav/"
-wavs="--wav_scp wav/wav.scp"
+# wavs="--wav_path wav/BAC009S0764W0121.wav"
+# wavs="--wav_paths wav/BAC009S0764W0121.wav wav/IT0011W0001.wav wav/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00000.wav wav/TEST_MEETING_T0000000001_S00000.wav"
+wavs="--wav_dir /data/xiyali/FireRedASR/data"
+# wavs="--wav_scp wav/wav.scp"
 
 out="out/aed-l-asr.txt"
 
