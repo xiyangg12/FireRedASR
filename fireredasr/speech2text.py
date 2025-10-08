@@ -47,7 +47,7 @@ def main(args):
         for dir in os.listdir(wav_dir):
             args.wav_dir = os.path.join(wav_dir, dir)
             wavs = get_wav_info(args)
-            fout = open(os.path.join("/data/xiyali/FireRedASR/output", f"{dir}.txt"), "w") if args.output else None
+            fout = open(os.path.join(args.output, f"{dir}.txt"), "w") if args.output else None
             transcribe(model, args, wavs, fout)
 
 
@@ -109,7 +109,7 @@ def get_wav_info(args):
     def extract_num(f):
         return int(re.search(r'seg\d+', f[1]).group()[3:])
 
-    wavs = sorted(wavs, key=extract_num)
+    wavs = sorted(wavs)
     return wavs
 
 
